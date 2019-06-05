@@ -1,0 +1,25 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        TreeNode copy = root;
+        return judgeSymmetric(root,copy);
+        }
+    private boolean judgeSymmetric(TreeNode root, TreeNode copy) {
+        if(root == null && copy == null) {
+            return true;
+        }else if(root == null || copy == null) {
+            return false;
+        }else if(root.val != copy.val) {
+            return false;
+        }
+        return judgeSymmetric(root.left, copy.right) && judgeSymmetric(root.right, copy.left);
+    }
+}
