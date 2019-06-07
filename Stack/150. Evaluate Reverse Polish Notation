@@ -1,0 +1,48 @@
+class Solution {
+    public int evalRPN(String[] tokens) {
+        Stack <Integer> list = new Stack <> ();
+        
+        String operators = "+ - * / ";
+        if(tokens.length == 0 ) return 0;        
+        for(int i = 0; i < tokens.length; i++) {
+            if(!operators.contains(tokens[i])) {                
+                int tmp = Integer.parseInt(tokens[i]);
+                list.push(tmp);
+
+            }else {
+                int op1 = list.pop();
+                int op2 = list.pop();
+                if(tokens[i].equals("+")) {
+                    list.push(op2 + op1);
+                }else if(tokens[i].equals("-")) {
+                    list.push(op2 - op1); 
+                }else if(tokens[i].equals("*")) {
+                    list.push(op2 * op1);
+                }else {
+                    list.push(op2 / op1);
+                }
+            }
+        }
+        return list.pop();
+    }
+}
+--------------------------------------------------------------------------------------
+
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+        
+        for (String s: tokens){
+            try {
+                int i = Integer.parseInt(s);
+                stack.push(i);
+            } catch (Exception e){
+                int k = stack.pop();
+                int j = stack.pop();
+                if (s.equals("+")) stack.push(j+k);
+                else if (s.equals("-")) stack.push(j-k);
+                else if (s.equals("*")) stack.push(j*k);
+                else stack.push(j/k);
+            }
+        }
+        
+        return stack.pop();
