@@ -1,0 +1,22 @@
+class Solution {
+    public String getHint(String secret, String guess) {
+        int len = secret.length();
+        int cows = 0;
+        int bulls = 0;
+        int count[] =new int[10];
+        for(int i = 0; i < len; i++) {
+            int target = secret.charAt(i) - '0';
+            int bullet = guess.charAt(i) - '0';
+            if(target == bullet) {
+                cows++;
+            } else {
+                if(count[target] < 0) bulls++;
+                if(count[bullet] > 0) bulls++;
+                count[bullet]--;
+                count[target]++;
+            }
+        }
+          
+        return cows + "A" + bulls + "B";
+    }
+}
