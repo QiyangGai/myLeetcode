@@ -1,0 +1,19 @@
+class Solution {
+    public void rotate(int[] nums, int k) {
+        k = nums.length - k % nums.length;
+        nums = reverse(nums, 0, k - 1);
+        nums = reverse(nums, k, nums.length - 1);
+        nums = reverse(nums, 0, nums.length - 1);
+
+    }
+    public int[] reverse(int[] nums, int low, int high) {
+        while(low < high) {
+            int temp = nums[low];
+            nums[low] = nums[high];
+            nums[high] = temp;
+            low ++;
+            high --;             
+        }
+        return nums;
+    }
+}
