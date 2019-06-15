@@ -1,0 +1,28 @@
+class Solution {
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        List<List<Integer>> res = new LinkedList<>();
+        if (nums1.length == 0 || nums2.length == 0 || k == 0) return res;
+        PriorityQueue<Integer[]> heap = new PriorityQueue<Integer[]>(new Comparator<Integer[]>(){
+            @Override
+            public int compare(Integer[] n1, Integer[] n2) {
+                if (n1[0] + n1[1] == n2[0] + n2[1]) {
+                    return 0;
+                }
+                return (n1[0] + n1[1] < n2[0] + n2[1]) ? -1 : 1;
+            }
+        } );
+        
+        for(int i = 0; i < nums1.length; i++) {
+            for(int j = 0; j < nums2.length; j++) {
+                heap.offer(new Integer[] {nums1[i], nums2[j]});
+            }
+        }
+        
+        for(int i = k; i > 0; i--) {
+            if(!heap.isEmpty()) {
+                res.add(Arrays.asList(heap.poll()));
+            }
+        }
+        return res;
+    }
+}
