@@ -1,0 +1,21 @@
+class Solution {
+    int res;
+    int count;
+    public int kthSmallest(TreeNode root, int k) {
+       /*
+       中序遍历 time n space 1
+       */
+        count=k;
+        dfs(root);
+        return res;
+    }
+    private void dfs(TreeNode node){
+        if(node.left!=null)  dfs(node.left);
+        count--;
+        if(count==0){
+            res=node.val;
+            //return;
+        }
+        if(node.right!=null) dfs(node.right);
+    }
+}
