@@ -1,0 +1,34 @@
+class Solution {
+    public String reverseWords(String s) {
+        String[] sp = s.trim().split("[\\s]+");
+        int i = 0, j = sp.length - 1;
+        while(i < j) {
+            String temp = sp[i];
+            sp[i++] = sp[j];
+            sp[j--] = temp;           
+        }
+        String res = String.join(" ", sp);
+        
+        return res;
+    }
+}
+52ms
+
+//////////////////////////////////////////////////////////
+
+class Solution {
+    public String reverseWords(String s) {
+        if( s == null || s.isEmpty()) {
+            return s;
+        } 
+        String[] sp = s.trim().split("[\\s]+");
+        StringBuilder res = new StringBuilder();
+        for(int i = sp.length-1; i >=1; i--) {
+            res.append(sp[i]).append(" ");
+        }
+        res.append(sp[0]);
+        return res.toString();
+    }
+}
+
+6ms
