@@ -1,0 +1,17 @@
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        char[] sChars = s.toCharArray();
+        char[] tChars = t.toCharArray();
+        int[] sArray = new int[128];
+        int[] tArray = new int[128];
+        for(int i=0; i<sChars.length; i++) {
+            if(sArray[sChars[i]] != tArray[tChars[i]]) {
+                return false;
+            } else {
+                sArray[sChars[i]] = i + 1;
+                tArray[tChars[i]] = i + 1;
+            }
+        }
+        return true;
+    }
+}
