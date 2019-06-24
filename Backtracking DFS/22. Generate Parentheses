@@ -1,0 +1,24 @@
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
+        helper(n, 0, 0, res, new StringBuilder());
+        return res;
+    }
+    public void helper(int n, int l, int r, List<String> res, StringBuilder temp) {
+        if(l == n && r == n) {
+            res.add(temp.toString());
+            return;
+        } 
+            if(l < n) {
+            temp.append('(');
+            helper(n, l + 1, r, res, temp);
+            temp.deleteCharAt(temp.length() - 1);
+            } 
+            if(l > r) {
+            temp.append(')');
+            helper(n, l, r + 1, res, temp);
+            temp.deleteCharAt(temp.length() - 1);
+            }
+        
+    }
+} 
