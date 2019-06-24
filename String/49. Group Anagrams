@@ -1,0 +1,31 @@
+class Solution {
+   
+    public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> res = new ArrayList<>();
+        HashMap<String, Integer> s = new HashMap<>();
+        int cur = 0;
+        for (String str : strs) {
+            String key = strCoding(str);
+            if (!s.containsKey(key)) {
+                res.add(new LinkedList<>());
+                s.put(key, cur);
+                cur++;
+            }
+            res.get(s.get(key)).add(str);
+        }
+        return res;
+    }
+
+    /**
+     * 给当前字符串进行编码。
+     * @param s 原字符串
+     * @return 编码后的字符串
+     */
+    private String strCoding(String s) {
+        char[] res = new char[26];
+        for (char c : s.toCharArray()) {
+            res[c - 'a']++;
+        }
+        return new String(res);
+    }
+}
