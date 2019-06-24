@@ -1,0 +1,16 @@
+class Solution {
+    public String largestNumber(int[] nums) {
+        List<String> res = new ArrayList <> ();
+        for(int i : nums) {
+            res.add(String.valueOf(i));
+        }
+        Collections.sort(res, new Comparator<String>() {
+            @Override
+            public int compare(String a, String b) {
+                return ((b + a).compareTo(a + b));
+            }
+        });
+        if (res.get(0).equals("0")) return "0";
+        return String.join("", res);
+    }
+}
