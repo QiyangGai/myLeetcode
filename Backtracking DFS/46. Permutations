@@ -19,3 +19,36 @@ class Solution {
             }
     }
 }
+
+//////////////////////////////////////////////////////////////////////////
+In Place Method:
+
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        permutate(nums, 0, nums.length-1, res);
+        return res;
+    }
+    
+    void permutate(int[] nums, int level, int r, List<List<Integer>> res){
+        if(level == r){
+            List<Integer> list = new ArrayList<>();
+            for(int i=0;i<nums.length ; i++)
+                list.add(nums[i]);
+            
+            res.add(list);
+        }else{
+            for(int i=level ; i<=r ; i++){
+                swap(nums, level, i);
+                permutate(nums, level+1, r , res);
+                swap(nums, level, i);
+            }
+        }
+    }
+    
+    void swap(int[] nums, int l, int r){
+        int t = nums[l];
+        nums[l] = nums[r];
+        nums[r] = t;
+    }
+}
