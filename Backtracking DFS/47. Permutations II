@@ -1,0 +1,39 @@
+class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        helper(nums, 0, nums.length-1, res);
+        return res;
+    }
+    
+    void helper(int[] nums, int level, int maxIndex, List<List<Integer>> res) {
+        if(level == maxIndex) {
+            List<Integer> list = new ArrayList<>();
+            for(int num : nums) {
+                list.add(num);
+            }
+            res.add(list);
+        } 
+        for(int i = level; i <= maxIndex; i++) {
+            if(haveSame(nums, level, i)) continue;             
+            swap(nums, level, i);
+            helper(nums, level + 1, maxIndex, res);
+            swap(nums, level, i);
+        }        
+    }      
+    
+        
+    void swap(int[] nums, int l, int r) {
+        int temp = nums[l];
+        nums[l] = nums[r];
+        nums[r] = temp;
+    }
+
+    boolean haveSame(int[]nums, int left, int right) {
+        for(int i = left; i < right; i++) {
+            if(nums[i] == nums[right]) {
+                return true;
+            }
+        }
+        return false;
+    }             
+}
