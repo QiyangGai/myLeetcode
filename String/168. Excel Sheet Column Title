@@ -1,0 +1,16 @@
+class Solution {
+    public String convertToTitle(int n) {
+        
+        StringBuilder res = new StringBuilder("");
+        while (n > 0) {
+            if (n <= 26) {
+                res.insert(0, Character.toString((char)((n - 1) + 'A')));
+            } else {
+                res.insert(0, (n % 26 == 0) ? "Z" : Character.toString((char)(((n % 26) - 1) + 'A')));
+            }
+            n = n - 1;
+            n = (n / 26);
+        }
+        return res.toString();
+    }
+};
