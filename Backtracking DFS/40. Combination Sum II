@@ -24,7 +24,38 @@ class Solution {
         }
     }
 }
+ 
+ 
+ ///////////////////////////////////////////////////////////////////////////////////
+ 
+ 改了一下剪枝条件 可以时时剪枝 上一中必须要把枝生成进入下一层才能剪枝
+ 
+ class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(candidates);
+        helper(candidates, target, 0, new ArrayList<Integer>(), res);
+        return res;
+    }
+    
+    void helper(int[] nums, int sumLeft, int level, List<Integer> temp, List<List<Integer>> res) {
+        if(sumLeft == 0) {
+            res.add(new ArrayList<Integer>(temp));
+            return;
+        }
         
+        for(int i = level; i <nums.length; i++) {
+            if(sumLeft - nums[i] < 0) break; 
+                temp.add(nums[i]);
+                helper(nums, sumLeft - nums[i], i + 1, temp, res);
+                temp.remove(temp.size() - 1);
+                while(i < nums.length - 1 && nums[i] == nums[i + 1]) i++;
+          
+        }
+    }
+}
+ 
+ 
         
         
         
