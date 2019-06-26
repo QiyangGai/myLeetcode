@@ -1,0 +1,50 @@
+class Solution {
+    public List<List<Integer>> combinationSum3(int k, int n) {
+     
+        List<List<Integer>> res = new ArrayList<>();
+        helper(n, k, 1, new ArrayList<Integer>(), res);
+        return res;
+    }
+    
+    private void helper(int sum, int k, int start, List<Integer> list, List<List<Integer>> res) {
+        if(list.size() == k - 1 && sum >= start && sum < 10) {
+            list.add(sum);
+            res.add(new ArrayList<Integer>(list));
+            list.remove(list.size() - 1);
+            return;
+        } else if(sum > 0) {
+            for(int i = start; i <= (sum - 1) / 2; i++) {
+                    list.add(i);
+                    helper(sum - i, k, i + 1, list, res);
+                    list.remove(list.size() - 1);
+            }
+        }
+        
+    }
+}
+
+错误答案。因为一开始没看见 是小于9 所以很多赘余.去掉sum < 10可以求个数为k和为n的 所有的组合，也算是是一道变种题吧
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+class Solution {
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<Integer> out = new ArrayList<Integer>();
+        combinationSum3Helper(k, n, 1, out, res);
+        return res;
+    }
+    
+    void combinationSum3Helper(int k, int n, int start, List<Integer> out, List<List<Integer>> res) {
+        if (n<0 || out.size() > k) {
+            return;
+        }
+        if (out.size() == k && n == 0) {
+            res.add(new ArrayList<Integer>(out));
+        }
+        for (int i=start; i<=9;i++) {
+            out.add(i);
+            combinationSum3Helper(k, n-i, i+1, out, res);
+            out.remove(out.size()-1);
+        }
+    }
+}
