@@ -1,0 +1,12 @@
+class Solution {
+    public int titleToNumber(String s) {
+        char[] digit = s.toCharArray();
+        
+        int sum = 0;
+        for(int i = 0; i < digit.length; i++) {
+            
+            sum += (int)(digit[i] - 'A' + 1) * (int)(Math.pow(26, digit.length - 1 - i));
+        }
+        return sum;
+    }
+}
