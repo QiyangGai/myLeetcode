@@ -1,0 +1,15 @@
+class Solution {
+    public int compareVersion(String version1, String version2) {
+        String[] split1 = version1.split("\\.");
+        String[] split2 = version2.split("\\.");
+
+        for (int i = 0; i < Math.max(split1.length, split2.length); i++) {
+            int a = i < split1.length ? Integer.valueOf(split1[i]) : 0;
+            int b = i < split2.length ? Integer.valueOf(split2[i]) : 0;
+            if (a - b == 0) continue;
+            return a - b < 0 ? -1 : 1;
+        }
+
+        return 0;
+    }
+}
