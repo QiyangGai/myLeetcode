@@ -1,0 +1,46 @@
+class Solution {
+    public int[] sortArray(int[] nums) {
+         if(nums == null || nums.length == 0) {
+             return nums;
+         }
+        quikSort(nums, 0, nums.length - 1);
+        return nums;
+    }
+    public void quikSort(int[] nums, int start, int end) {
+        if (start >= end) {
+            return;
+        }
+        int pivot = patition(nums, start, end);
+        quikSort(nums, start, pivot - 1);
+        quikSort(nums, pivot + 1, end);
+    }
+        
+        
+    public int patition(int[] arr, int start, int end) {
+        int pivotIndex =  start + (int) (Math.random() * (end - start + 1));
+        swap(arr, pivotIndex, end);
+        int left = start;
+        int right = end - 1;
+        while(left <= right) {
+            if(arr[left] < arr[end]) {
+                left++;
+            } else if(arr[right] >= arr[end]) {
+                right--;
+            } else {
+                swap(arr, left++, right--);
+            }
+        }
+        swap(arr, left, end);
+        return left;
+    }    
+        
+     public void swap(int[] nums, int left, int right) {
+         int temp = nums[left];
+         nums[left] = nums[right];
+         nums[right] = temp;
+     }   
+        
+        
+        
+        
+}
