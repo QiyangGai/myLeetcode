@@ -1,0 +1,37 @@
+public class Solution {
+    public int jump(int[] nums) {
+        if (nums == null || nums.length == 1) {
+            return 0;
+        }
+
+        int n = nums.length;
+
+        // dists holds, for each index, the least amount of jumps required to reach that index
+        int[] dists = new int[n];
+        
+        // reach is the furthest index (to the right) we have reached so far
+        // It's initially 0 since we start from index 0
+        int reach = 0;
+        
+        for (int i = 0; i < n; i++) {
+            // thisReach is how far we can jump from the current index
+            int thisReach = Math.min(n - 1, i + nums[i]);
+            
+            // If we can't jump beyond the farthest index reached so far, there is no point in continuing
+            if (thisReach <= reach) {
+                continue;
+            }
+            
+            // If we reach this for-loop it's because we can jump further that we've reached before
+            // However, we shouldn't consider indices already reached, so we start the loop from reach + 1
+            // The distance of the nodes we reach is the distance to this node + 1
+            for (int j = reach + 1; j <= thisReach; j++) {
+                dists[j] = dists[i] + 1;
+            }
+            
+            reach = thisReach;
+        }
+
+        return dists[n - 1];
+    }
+}
