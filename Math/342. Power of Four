@@ -1,6 +1,12 @@
 class Solution {
     public boolean isPowerOfFour(int n) {                                                
-        return n > 0 && (n & n-1) == 0 &&
-            Integer.toBinaryString(n).length() % 2 != 0;        
+       return ((num > 0) && (num & (num-1)) == 0 && (num & 0x55555555) != 0);    // 5 =0101 
     }
 }
+///////////////////////////////////////////////////////
+class Solution {
+    public boolean isPowerOfFour(int n) {                                                
+        return Integer.toString(n, 4).matches("^10*$");     
+    }
+}
+//////////////////////////////////////////////////////
