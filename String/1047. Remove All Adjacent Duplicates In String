@@ -1,17 +1,17 @@
 class Solution {
     public String removeDuplicates(String s) {
-        char [] word = s.toCharArray();
-        int index = -1;       
-        for(int x = 0 ; x < word.length; x++){   
-            if(index >= 0 && word[x] == word[index]){
-               index--;
+        char [] m = s.toCharArray();
+        int i = -1;
+        int j = 0;
+        while(j < m.length) {
+            if(i < 0 || m[i] != m[j]) {
+                m[++i] = m[j++]; 
+            } else {
+                i--;
+                j++;
             }
-            else{         
-                word[++index] = word[x];
-            }
-        
         }
    
-        return new String(word , 0, index+1);
+        return new String(m, 0, i+1);
     }
 }
