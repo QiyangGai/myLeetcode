@@ -1,0 +1,27 @@
+class Solution {
+    public  Node connect(Node root) {
+        Node dummy = new Node(0);
+        Node curr = null;
+        Node head = root;
+        while(head != null) {
+            curr = dummy;
+            while(head != null) {
+                if(head.left != null) {
+                    curr.next = head.left;
+                    curr = curr.next;
+                }
+                if(head.right != null) {
+                    curr.next = head.right;
+                    curr = curr.next;
+                }
+                head = head.next;
+            }
+            head = dummy.next;
+            dummy.next = null;
+        }
+        return root;
+    }
+}
+
+每一层都相当于一个链表，用一个dummyhead来记住头。下一次从dummy.next开始
+每次在当前曾操作下一层，所以dmmy.next就是下一层的头结点。如果下一层没东西dmmu.next = null 跳出循环
