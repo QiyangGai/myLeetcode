@@ -1,0 +1,23 @@
+class Solution {
+    public static final String[] map = new String[]{"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+    public List<String> letterCombinations(String digits) {
+        
+        List<String> res = new ArrayList<String>();
+        if(digits == null || digits.length() == 0) return res;
+        helper(res, digits, new StringBuilder());
+        return res;
+    }
+    private void helper(List<String> res, String digits, StringBuilder cur) {
+        if(cur.length() == digits.length()) {
+            res.add(cur.toString());
+            return;
+        }
+        int level = digits.charAt(cur.length());
+        char[] letters = map[level - 48].toCharArray();
+        for(char l : letters) {
+            cur.append(l);
+            helper(res, digits, cur);
+            cur.deleteCharAt(cur.length() - 1);
+        }
+    }
+}
