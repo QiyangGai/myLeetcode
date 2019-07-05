@@ -1,0 +1,29 @@
+public boolean isValidSerialization(String preorder) {
+    String[] nodes = preorder.split(",");
+    int diff = 1;
+    for (String node: nodes) {
+        if (--diff < 0) return false;
+        if (!node.equals("#")) diff += 2;
+    }
+    return diff == 0;
+}
+每次进来Node去掉一个枝如不是null加2个枝 整个过程没有<0的时候
+///////////////////////////////////////////////////////////
+class Solution {
+    public boolean isValidSerialization(String preorder) {
+        if(preorder == null) {
+            return false;
+        }
+        Stack<String> stack = new Stack<>();
+        String[] elements = preorder.split(",");
+        for(int i = 0; i < elements.length; i++) {
+            while(elements[i].equals("#") && !stack.isEmpty() && stack.peek().equals(elements[i])) {
+                stack.pop();
+                if(stack.isEmpty()) return false;
+                stack.pop();
+            }
+            stack.push(elements[i]);
+        }
+        return (stack.size() == 1 && stack.peek().equals("#")) ? true : false;
+    }
+}
