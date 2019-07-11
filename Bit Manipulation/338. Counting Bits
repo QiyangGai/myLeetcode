@@ -1,0 +1,40 @@
+class Solution {
+    public int[] countBits(int num) {
+        int[] res = new int[num + 1];
+        res[0] = 0;
+        for(int i = 1; i < res.length; i++) {
+            if((i & 1) == 1) {
+                res[i] = res[i - 1] + 1;
+            } else {
+                res[i] = res[i >> 1];
+            }
+        }
+        return res;
+    }
+}
+
+```
+Prerequisite
+
+As we know, a number can be classified into an even or odd number.
+
+An even number in binary ends with 0
+
+An odd number in binary ends with 1
+
+Strategy
+
+Let's denote the number as num:
+
+If it is even, the ending bit is 0, then that bit can be ignored, countBits(num) is the same as countBits(num >> 1), so countBits(num) = countBits(num >> 1);
+
+For example:
+
+num:      101010101010
+num >> 1: 10101010101
+If it is odd, the ending bit is 1, then the number of set bits is that of num - 1 + 1, i.e. countBits(num) = countBits(num - 1) + 1
+
+For example:
+
+num:     101010101011
+num - 1: 101010101010
