@@ -1,0 +1,21 @@
+class Solution {
+    public int maxProduct(String[] words) {
+        if(words == null || words.length == 0) return 0;
+        int[] code = new int[words.length];
+        for(int i = 0; i < words.length; i++) {
+            String word = words[i];
+            for(int j = 0; j < word.length(); j++) {
+                char a = word.charAt(j);
+                code[i] |= 1 << (a - 'a');
+            }
+        }
+        int max = 0;
+        for(int i = 0; i < code.length; i++) {
+            for(int k = i + 1; k < code.length; k++)
+                if((code[i] & code[k]) == 0) {                   
+                    max = Math.max(words[i].length() * words[k].length(), max);
+                }
+        }
+        return max;
+    }
+}
