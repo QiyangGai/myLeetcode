@@ -1,0 +1,22 @@
+class Solution {
+    public void reverseWords(char[] s) {
+        int start = 0;
+        for(char i = 0; i <= s.length; i++) {
+            if(i == s.length || s[i] == ' ') {
+                reverse(s, start, i - 1);
+                start = i + 1;
+            }
+        }
+        reverse(s, 0, s.length - 1);
+          
+    }
+    public void reverse(char[] s, int l, int r) {
+        while(l <= r) {
+            char tmp = s[l];
+            s[l] = s[r];
+            s[r] = tmp;
+            l++;
+            r--;
+        }
+    }
+}
