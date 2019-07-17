@@ -1,0 +1,26 @@
+class Solution {
+    public int minMeetingRooms(int[][] intervals) {
+        Comparator<int[]> cmp = (o1, o2) -> o1[0] - o2[0];
+        Arrays.sort(intervals, cmp);
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.comparingInt(u -> u));
+
+        int maxRooms = 0;
+
+        for(int[] interval : intervals) {
+            while (!pq.isEmpty() && pq.peek() <= interval[0]) { // previous interval doesn't overlap
+                pq.poll();
+            }
+
+            pq.offer(interval[1]);
+            maxRooms = Math.max(maxRooms, pq.size());
+        }
+
+        return maxRooms;
+    }
+}
+///////////////////////////////////////////////////////////////////////
+Logic behind this is, everytime I process a meeting, I check if any of previously allocated meetings have completed.
+I keep track of currently running meetings by adding their end times to a priority queue. If while processing current meeting, I find some of the previous meetings are over, I simply remove them.
+
+So, the minimum number of meeting rooms required is basically the maximum overlapping meetings, i.e. number of meetings in priority queue at any time.
