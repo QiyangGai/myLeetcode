@@ -1,0 +1,13 @@
+class Solution {
+    public String removeVowels(String S) {
+        char[] res= S.toCharArray();
+        int s = -1;
+        for(int i = 0; i < res.length; i++) {
+            while(i < res.length && (res[i] == 'a' || res[i] == 'e' || res[i] == 'i' || res[i] == 'o' || res[i] == 'u')) i++;
+            if(i < res.length) {
+                res[++s] = res[i];
+            }
+        }
+        return String.valueOf(res,0, s+1);
+    }
+}
