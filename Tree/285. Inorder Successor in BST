@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+    TreeNode res = null;
+    while(root!=null) {
+        if(root.val > p.val) {
+        	res = root;
+        	root = root.left;
+        }
+        else root = root.right;
+    }
+    return res;
+}
+}
+
+//如果root.val > p.val他可能是res,但我们还要往左走，往左走肯定比现在roo.val小如果再大于p.val那他是更接近的successor。如果root.val小于p的话我们要右走，且现在的root肯定不是，所以不记录。
+
+
+//每次res的情况
+//1.进入的是p的parent,p在左子树
+//p没有右子女，返回上一次要向左走的节点，他是最小大于p
+//p有右子，他会向右走(记录右子，肯定比之前小)，然后一直向左走（p的右边都大于p）如果不能左走，说明饭后p右子
+
+//2.f it's p's right child, there are two scenarios: 1. the right child has left sub tree, eventually the smallest node from the left sub tree will be the answer; 2. the right child has no left sub tree, the recursion will return null, then the right child (root) is our answer.
