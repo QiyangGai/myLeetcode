@@ -1,0 +1,23 @@
+class Solution {
+    public void wallsAndGates(int[][] rooms) {
+        for(int i = 0; i < rooms.length; i++) {
+            for(int j = 0; j < rooms[0].length; j++) {
+                if(rooms[i][j] == 0) {
+                    
+                    dfs(rooms, i, j, 0);
+                }
+            }
+        }
+    }
+    private void dfs(int[][] rooms, int r, int l, int count) {
+        if(r < 0 || l < 0 || r >= rooms.length || l >= rooms[0].length || rooms[r][l] == -1 || rooms[r][l] < count) {
+           return;
+        } 
+        rooms[r][l] = count;
+        dfs(rooms, r + 1, l, count+1);
+        dfs(rooms, r - 1, l, count+1);
+        dfs(rooms, r, l + 1, count+1);
+        dfs(rooms, r, l - 1, count+1);
+        
+    }
+}
