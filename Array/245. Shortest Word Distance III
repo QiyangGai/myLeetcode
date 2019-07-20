@@ -1,0 +1,52 @@
+class Solution {
+    
+    public int shortestWordDistance(String[] words, String word1, String word2) {
+        
+        int res = Integer.MAX_VALUE; 
+        if(word1.equals(word2)) {
+            int i1 = -1, i2 = -1;
+            for(int j = 0; j < words.length; j++) {
+                if(words[j].equals(word1)) {
+                    if(i1 == -1 || i1 < i2) {
+                        i1 = j;
+                    } else {
+                        i2 = j;
+                    }                    
+                }                 
+                if(i1 != -1 && i2 != -1) res = Math.min(res,Math.abs(i1 - i2));
+            }
+        } else {
+            Map <String, List<Integer>> map = map = new HashMap<>();
+            for(int i = 0; i < words.length; i++) {
+            String word = words[i];
+            if(!map.containsKey(word)) {
+                map.put(word, new ArrayList<Integer>());
+            }                 
+                map.get(word).add(i); 
+            }
+            
+            res = helper(map.get(word1), map.get(word2));
+            
+        }
+        
+        return res;
+    }
+    
+    private int helper(List<Integer> l1, List<Integer> l2) {
+        
+        int min = Integer.MAX_VALUE;
+        int i = 0, j = 0;
+        while(i < l1.size() && j < l2.size()) {
+            int val1 = l1.get(i);
+            int val2 = l2.get(j);
+            if(val1 < val2) {
+                min = Math.min(min, val2 - val1);
+                i++;
+            } else {
+                min = Math.min(min, val1 - val2);
+                j++;
+            }
+        }
+        return min;        
+    }
+}
