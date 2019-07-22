@@ -1,0 +1,23 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    private int max = 0;
+    public TreeNode convertBST(TreeNode root) {
+        if(root == null) {
+            return null;
+        }
+        
+        root.right = convertBST(root.right);       
+        max += root.val;
+        root.val = max;        
+        root.left = convertBST(root.left);
+        return root;
+    }
+}
