@@ -24,3 +24,33 @@ class Solution {
 //////////////////////////////////////////////////////////
 1.与翻转接点，递归方法类似
 2，一个节点右节点要不为空，要不又兄妹左节点
+
+
+
+iterative:
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode upsideDownBinaryTree(TreeNode root) {
+        TreeNode cur = root;
+        TreeNode pre1 = null;
+        TreeNode pre2 = null;
+        while(cur!= null) {
+            TreeNode next = cur.left;
+            TreeNode tmp = cur.right;
+            cur.left = pre1;
+            cur.right = pre2;
+            pre1 = tmp;
+            pre2 = cur;
+            cur = next;
+        }
+        return pre2;
+    }
+}
