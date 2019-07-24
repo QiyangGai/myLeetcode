@@ -1,0 +1,90 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+        if(root == null) {
+            return new ArrayList<>();
+        }
+        Map<Integer, List<Integer>> map = new TreeMap<>();
+        Queue<TreeNode> Node = new LinkedList<>();
+        Queue<Integer> cols = new LinkedList<>();
+        
+        Node.add(root);
+        cols.add(0);
+        while(!Node.isEmpty()) {
+            TreeNode cur = Node.poll();
+            int col = cols.poll();
+            if(!map.containsKey(col)) {
+                map.put(col, new ArrayList<Integer>());
+            }
+            map.get(col).add(cur.val);
+        
+            if(cur.left != null) {
+                Node.add(cur.left);
+                cols.add(col - 1);
+            }
+            if(cur.right != null) {
+                Node.add(cur.right);
+                cols.add(col + 1);
+            }
+        }
+        return new ArrayList(map.values());
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+        if(root == null) {
+            return new ArrayList<>();
+        }
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        Queue<TreeNode> Node = new LinkedList<>();
+        Queue<Integer> cols = new LinkedList<>();
+        int max = 0, min = 0;
+        Node.add(root);
+        cols.add(0);
+        while(!Node.isEmpty()) {
+            TreeNode cur = Node.poll();
+            int col = cols.poll();
+            if(!map.containsKey(col)) {
+                map.put(col, new ArrayList<Integer>());
+            }
+            map.get(col).add(cur.val);
+        
+            if(cur.left != null) {
+                Node.add(cur.left);
+                cols.add(col - 1);
+                min = Math.min(min, col - 1);
+            }
+            if(cur.right != null) {
+                Node.add(cur.right);
+                cols.add(col + 1);
+                max = Math.max(max, col + 1);
+            }
+            
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        for(int i = min; i <= max; i++) {
+                res.add(map.get(i));
+            }
+        return res;
+    }
+}
