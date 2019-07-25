@@ -1,1 +1,24 @@
-a
+class Solution {
+    public int maxSubArrayLen(int[] nums, int k) {
+       int sum = 0, max = 0;
+        Map<Integer, Integer> prefix = new HashMap<>();
+        for(int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            if(sum == k) {
+                max = Math.max(max, i + 1);
+            } else if(prefix.containsKey(sum - k)) {
+                max = Math.max(max, i - prefix.get(sum - k));
+            }
+            if(!prefix.containsKey(sum)) {
+                prefix.put(sum, i);
+            }                
+        }
+        return max;
+    }
+}
+
+
+map力放前i项的和， 每次看看打的区间减小区间能不能等于k
+只有2种情况
+1：子数组从0开始
+2.子数组可以表示为大区间和减小区间和
