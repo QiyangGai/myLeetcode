@@ -1,32 +1,75 @@
 class Solution {
-    public String minWindow(String s, String t) {
+    public boolean checkInclusion(String s1, String s2) {
+        if(s1.length() > s2.length()) {
+            return false;
+            
+        }
         Map<Character, Integer> map = new HashMap<>();
-        for(char c : s.toCharArray())
-             map.put(c,0);
-        for(char c : t.toCharArray()) {
-            if(map.containsKey(c))
-                map.put(c,map.get(c)+1);
+        for(int i = 0; i < s1.length(); i++) {
+            char c = s1.charAt(i);
+            map.put(c, map.getOrDefault(c,0) + 1);
         }
-        int slow = 0, fast = 0, minStart = 0, minLen = Integer.MAX_VALUE, counter = t.length();
-        while(fast < s.length()) {
-            char fast_letter = s.charAt(fast);
-            if(map.get(fast_letter) > 0) counter--;
-            map.put(fast_letter, map.get(fast_letter) - 1);
-            fast++;
-        
-            while(counter == 0) {
-                if(fast - slow < minLen) {
-                    minLen = fast - slow;
-                    minStart = slow;
+        int count = map.size();
+        int right = 0;
+        int left = 0;
+        while(right < s2.length()) {
+            char m = s2.charAt(right);
+            if(map.containsKey(m)) {
+                map.put(m, map.get(m) - 1);
+                if(map.get(m) == 0) {
+                    count--;
                 }
-                char slow_letter = s.charAt(slow);
-                map.put(slow_letter, map.get(slow_letter) + 1);
-                if(map.get(slow_letter) > 0) {
-                    counter++;
-                }
-                slow++;
             }
+            while(count == 0) {
+                if(right - left + 1 == s1.length()) {
+                    return true;
+                }
+                char tmp = s2.charAt(left);
+                if(map.containsKey(tmp)) {
+                    map.put(tmp, map.get(tmp) +1);
+                    if(map.get(tmp) > 0) {
+                        count++;
+                    }
+                }
+                left++;
+            }
+            right++;
         }
-        return minLen == Integer.MAX_VALUE ? "" : s.substring(minStart, minStart + + minLen);
+        return false;
     }
+    Time complexity O(n) actually worstcase n + (n - m);
+    
+    
+    //////////////////////////////////////////////////////////////////////////
+    
+    public class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        int len1 = s1.length(), len2 = s2.length();
+        if (len1 > len2) return false;
+        
+        int[] count = new int[26];
+        for (int i = 0; i < len1; i++) {
+            count[s1.charAt(i) - 'a']++;
+            count[s2.charAt(i) - 'a']--;
+        }
+        if (allZero(count)) return true;
+        
+        for (int i = len1; i < len2; i++) {
+            count[s2.charAt(i) - 'a']--;
+            count[s2.charAt(i - len1) - 'a']++;
+            if (allZero(count)) return true;
+        }
+        
+        return false;
+    }
+    
+    private boolean allZero(int[] count) {
+        for (int i = 0; i < 26; i++) {
+            if (count[i] != 0) return false;
+        }
+        return true;
+    }
+}
+    
+    
 }
