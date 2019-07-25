@@ -1,0 +1,27 @@
+class Solution {
+    public String[] reorderLogFiles(String[] logs) {        
+        Arrays.sort(logs, new Comparator<String>(){
+            @Override
+            public int compare(String s1, String s2) {
+                int s1_space = s1.indexOf(' ');
+                int s2_space = s2.indexOf(' ');
+                char s1_letter = s1.charAt(s1_space + 1);
+                char s2_letter = s2.charAt(s2_space + 1);
+                
+                
+                if (s1_letter <= '9' && s2_letter <= '9') {
+                    return 0;
+                } else if(s1_letter <= '9') {
+                    return 1;
+                }else if (s2_letter <= '9') {
+                    return -1;
+                } else {
+                    int preCompute = s1.substring(s1_space+1).compareTo(s2.substring(s2_space+1));
+                    if (preCompute == 0) return s1.substring(0,s1_space).compareTo(s2.substring(0,s2_space));
+                    return preCompute;
+                }
+            }
+        });
+        return logs;
+    }
+}
