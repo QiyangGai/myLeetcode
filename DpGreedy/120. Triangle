@@ -1,0 +1,16 @@
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int row = triangle.size();
+        List<Integer> res = new LinkedList<Integer>(triangle.get(row - 1));
+        for(int i = row -2; i >=  0; i--) {
+            List<Integer> cur = triangle.get(i);
+            for(int j = 0; j < cur.size(); j++) {
+                res.set(j, Math.min(res.get(j), res.get(j + 1)) + cur.get(j));
+            }
+        }
+        return res.get(0);
+    }
+}
+
+/////////////////////////////////////////
+看书签
