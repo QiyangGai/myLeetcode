@@ -1,0 +1,50 @@
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+    ListNode curr = head;
+    int count = 0;
+    while (curr != null && count != k) { 
+        curr = curr.next;
+        count++;
+    }
+    if (count == k) { // if k+1 node is found
+        curr = reverseKGroup(curr, k);  
+        while (count-- > 0) {  
+            ListNode tmp = head.next; 
+            head.next = curr; 
+            curr = head; 
+            head = tmp; 
+        }
+        head = curr;
+    }
+    return head;
+}
+}
+////////////////////////////////////////
+      wrong answer?
+      class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(head == null) {
+            return head;
+        }
+        ListNode tail = head;
+        for(int i = k - 1; i > 0;i--) {
+            if(tail == null) {
+                return head;
+            }
+            tail = tail.next;
+        }
+        ListNode newHead = reverseKGroup(tail.next, k);
+        tail.next = newHead;
+        
+        ListNode pre = head;
+        ListNode cur = pre.next;
+        while(cur != newHead) {
+            ListNode tmp = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = tmp;
+        }
+        head.next = newHead;
+        return pre;
+    }
+}
