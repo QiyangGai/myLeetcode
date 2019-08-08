@@ -1,0 +1,25 @@
+class Solution {
+    public int[][] highFive(int[][] items) {
+        Map<Integer, PriorityQueue<Integer>> map = new HashMap<>();
+        for(int[] item : items) {
+            if(!map.containsKey(item[0])) {
+                map.put(item[0], new PriorityQueue<Integer>(Collections.reverseOrder()));
+            }
+            map.get(item[0]).offer(item[1]);
+        }
+        List<int[]> res = new ArrayList<>();        
+        for (Map.Entry<Integer, PriorityQueue<Integer>> entry : map.entrySet()) {    
+            int num = entry.getKey();
+            int aver = 0;
+            PriorityQueue<Integer> pq = entry.getValue();
+            int count = 0;
+            while(!pq.isEmpty() && count < 5) {
+                aver += pq.poll();
+                count++;
+            }
+            aver /= count;
+            res.add(new int[] {num, aver});
+        }   
+        return res.toArray(new int[res.size()][]);
+    }
+}
