@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+public boolean isCousins(TreeNode root, int A, int B) {
+    if(root == null) return false;
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.offer(root);
+    while(!queue.isEmpty()) {
+        int size = queue.size();
+        boolean haveA = false;
+        boolean haveB = false;
+        for(int i = 0; i < size; i++) {
+            TreeNode cur = queue.poll();
+            if(cur.val == A) haveA = true;
+            if(cur.val == B) haveB = true;
+            if(cur.left != null && cur.right != null) {
+                if((cur.left.val == A && cur.right.val == B) || (cur.left.val == B && cur.right.val == A)) {
+                    return false;
+                } else {
+                    queue.offer(cur.left);
+                    queue.offer(cur.right);
+                }
+            } else if(cur.left != null) {
+                queue.offer(cur.left);
+            } else if(cur.right != null) {
+                queue.offer(cur.right);
+            }
+        }
+        if(haveA && haveB) return true;
+    }
+	    return false;
+}
+}
