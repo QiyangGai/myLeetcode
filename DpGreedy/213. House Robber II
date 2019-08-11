@@ -1,0 +1,17 @@
+class Solution {
+    public int rob(int[] nums) {
+        if(nums.length == 0) return 0;
+        if(nums.length == 1) return nums[0];
+        int[] fir = new int[nums.length + 1];
+        int[] sec = new int[nums.length + 1];
+        fir[0] = 0;
+        fir[1] = nums[0];
+        sec[0] = 0;
+        sec[1] = 0;
+        for(int i = 2; i <= nums.length; i++) {
+            fir[i] = Math.max(fir[i - 2] + nums[i - 1], fir[i - 1]);
+            sec[i] = Math.max(sec[i - 2] + nums[i - 1], sec[i - 1]);
+        }
+        return Math.max(fir[fir.length - 2], sec[sec.length - 1]);
+    }
+}
