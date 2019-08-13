@@ -1,0 +1,49 @@
+class Solution {
+    public int trap(int[] height) {
+        int[] left = new int[height.length];
+        int maxLeft = 0;
+        for(int i = 0; i < height.length; i++) {
+            left[i] = maxLeft;
+            maxLeft = Math.max(maxLeft, height[i]);
+        }
+        int maxRight = 0;
+        int sum = 0;
+        for(int j = height.length - 1; j > 0; j--) {
+            left[j] = ( Math.min(left[j], maxRight) - height[j] <= 0 ) ? 0 : Math.min(left[j], maxRight) - height[j];
+            maxRight = Math.max(maxRight, height[j]);
+            sum += left[j];
+        }
+        return sum;
+    }
+}
+
+Time O(n) Space O(n);
+//////////////////////////////////////////////////////////////////////////////////////////
+
+class Solution {
+    public int trap(int[] height) {
+        int maxLeft = 0;
+        int maxRight = 0;
+        int sum = 0;
+        int i = 0;
+        int j = height.length - 1;
+        while(i < j) {
+            maxLeft = Math.max(maxLeft, height[i]);
+            maxRight = Math.max(maxRight, height[j]);
+            if(maxLeft <= maxRight) {
+                height[i] = maxLeft - height[i];
+                sum += height[i];
+                i++;
+            } else {
+                height[j] = maxRight - height[j];
+                sum += height[j];
+                j--;
+            }
+        }
+        return sum;
+    }
+}
+
+Time O(n) space O(1);
+
+youtube 篮子哥
