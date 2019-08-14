@@ -1,0 +1,61 @@
+class Solution {
+    public int numDistinctIslands(int[][] grid) {
+        Set<String> res = new HashSet<>();
+        int m = grid.length;
+        int n = grid[0].length;
+        for(int i = 0; i < m; i++) {
+            for(int j = 0;j < n; j++) {
+                if(grid[i][j] == 1) {
+                    StringBuilder tmp = new StringBuilder();
+                    helper(grid, tmp, "o", i, j);
+                    res.add(tmp.toString());
+                }
+            }
+        }
+        return res.size();
+    }
+    private void helper(int[][] grid, StringBuilder tmp, String cur,int i, int j) {
+        if(i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] != 1) {
+            return;
+        }
+        tmp.append(cur);
+        grid[i][j] = 0;
+        helper(grid, tmp, "u", i - 1, j);
+        helper(grid, tmp, "d", i + 1, j);
+        helper(grid, tmp, "l", i, j - 1);
+        helper(grid, tmp, "r", i, j + 1);
+        tmp.append("b");
+        
+    }
+}
+add String
+/////////////////////////////////////////////////////////////////////////////////////
+
+class Solution {
+    private static int[][] delta = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
+
+    public int numDistinctIslands(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        Set<List<List<Integer>>> islands = new HashSet<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                List<List<Integer>> island = new ArrayList<>();
+                if (dfs(i, j, i, j, grid, m, n, island))
+                    islands.add(island);
+            }
+        }
+        return islands.size();
+    }
+
+    private boolean dfs(int i0, int j0, int i, int j, int[][] grid, int m, int n, List<List<Integer>> island) {
+        if (i < 0 || m <= i || j < 0 || n <= j || grid[i][j] <= 0) return false;
+        island.add(Arrays.asList(i - i0, j - j0));
+        grid[i][j] = 0;
+        for (int d = 0; d < 4; d++) {
+            dfs(i0, j0, i + delta[d][0], j + delta[d][1], grid, m, n, island);
+        }
+        return true;
+    }
+}
+
+add List;
