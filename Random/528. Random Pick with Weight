@@ -1,0 +1,38 @@
+class Solution {
+
+    List<Integer> prefix = new ArrayList<>();
+    int sum = 0;
+    Random rand = new Random();
+
+    public Solution(int[] w) {
+        for (int x : w) {
+            sum += x;
+            prefix.add(sum);
+        }
+    }
+
+    public int pickIndex() {
+        
+        int tar = rand.nextInt(prefix.get(prefix.size() - 1)) + 1;
+        int low = 0;
+        int high = prefix.size() - 1;
+        while(low < high) {
+            int mid = low + (high - low) / 2;
+            if(prefix.get(mid) < tar) {
+                low = mid + 1;
+            } else if (prefix.get(mid) > tar) {
+                high = mid;
+            } else {
+                return mid;
+            }
+        }
+        
+        return low;
+    }
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(w);
+ * int param_1 = obj.pickIndex();
+ */
