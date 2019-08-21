@@ -1,0 +1,31 @@
+class Solution {
+    
+    public List<String> restoreIpAddresses(String s) {
+        
+        List<String> res = new ArrayList<>();
+        if(s.length() > 12) return res;
+        helper(s, new StringBuilder(), res, 0, s.length(), 0);
+        return res;
+    }
+    public void helper(String s, StringBuilder tmp, List<String> res,int start, int end, int level) {
+        if(level == 4 && start == end) {
+            res.add(new String(tmp.toString()));
+            return;
+        }
+        if(level == 4) return;
+        
+        int length = tmp.length();  
+        
+        for(int i = start + 1; i < start + 4 && i <= end; i++) {           
+            String cur = s.substring(start, i);
+            if(Integer.valueOf(cur) > 255 || (cur.length() > 1 && cur.charAt(0) == '0')) break;               
+            int c = Integer.valueOf(cur); 
+            if(level > 0) {
+                tmp.append(".");
+            }
+            tmp.append(cur);
+            helper(s, tmp, res, i, end, level + 1);
+            tmp.setLength(length);                   
+        }        
+    }
+}
