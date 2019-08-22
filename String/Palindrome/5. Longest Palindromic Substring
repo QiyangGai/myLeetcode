@@ -1,0 +1,32 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s == null || s.length() == 0) {
+            return s;
+        }
+        int n = s.length();
+        int start = 0;
+        int length = 1;
+        boolean[][] bmap = new boolean[n][n];
+        char[] cs = s.toCharArray();
+        for(int i = 0; i < n; i++) {
+            bmap[i][i] = true;
+        }
+        for(int i = 0; i < n - 1; i++) {
+            if(cs[i] == cs[i + 1]) {
+                bmap[i][i + 1] = true;
+                start = i;
+                length = 2;
+            }
+        }
+        for(int i = 3; i<= n; i++) {
+            for(int j = 0; i + j - 1 < n; j++) {
+                if(cs[j] == cs[i + j - 1] && bmap[j + 1][i + j - 2] == true) {
+                    bmap[j][i + j - 1] = true;
+                    start = j;
+                    length = i;
+                }
+            }
+        }
+        return s.substring(start, start + length);
+    }
+}
