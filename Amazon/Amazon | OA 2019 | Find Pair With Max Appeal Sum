@@ -1,0 +1,35 @@
+// "static void main" must be defined in a public class.
+//https://leetcode.com/discuss/interview-question/355698/amazon-oa-2019-find-pair-with-max-appeal-sum/323219
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+        //int[] a = new int[]{1, 3, -1};
+        int[] a = new int[]{10, 2, 30, 4, 6, 6, 70};
+        //int[] a = new int[]{1, 3, -1};
+        int[] pair = maxAppealVal(a);
+        System.out.println(pair[0]+ " "+pair[1]);
+    }
+    
+    
+    //O(n) time complexity
+    //O(1) space
+    private static int[] maxAppealVal(int[] arr) {
+        int res = Integer.MIN_VALUE;
+        int j = 0;
+        int jd = 0;
+        int id = 0;
+        for(int i = 0; i < arr.length; i++) {
+            if(arr[i] - i > arr[j] - j) {
+                j = i;
+            }
+            if(arr[i] + i + arr[j] - j > res) {
+                res = arr[i] + i + arr[j] - j;
+                jd = j;
+                id = i;
+            }
+        }
+            
+        
+      return new int[] {jd, id};  
+    }
+}
