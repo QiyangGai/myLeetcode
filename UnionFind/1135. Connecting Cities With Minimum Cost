@@ -1,0 +1,39 @@
+class Solution {
+    private int[] root;
+    public int minimumCost(int N, int[][] connections) {
+        root = new int[N];
+        int sum = 0;
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < N; i++) {
+            root[i] = i + 1;
+        }
+        Arrays.sort(connections, new Comparator<int[]>(){
+            public int compare(int[] a, int[] b) {
+                return a[2] - b[2];
+            }
+        });
+        for(int[] edge: connections) {
+            if(find(edge[0]) != find(edge[1])) {
+                union(edge[0], edge[1]);
+                sum += edge[2];
+            }
+        }
+        for(int i = 1; i <= N; i++) {
+            set.add(find(i));
+        }
+        return (set.size() == 1) ? sum : -1;
+        
+    }
+    
+    private void union(int a, int b) {
+        
+        root[find(a) - 1] = find(b);
+    }
+    
+    private int find(int node) {
+        if(root[node - 1] == node) {
+            return node;
+        }
+        return find(root[node - 1]);
+    }
+}
