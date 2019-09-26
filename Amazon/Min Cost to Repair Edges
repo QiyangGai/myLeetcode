@@ -1,0 +1,94 @@
+/**
+*There's an undirected connected graph with n nodes labeled 1..n. But some of the edges has been broken disconnecting the graph. Find the minimum cost to repair the edges so that all the nodes are once again accessible from each other.
+
+Input:
+
+n, an int representing the total number of nodes.
+edges, a list of integer pair representing the nodes connected by an edge.
+edgesToRepair, a list where each element is a triplet representing the pair of nodes between which an edge is currently broken and the cost of repearing that edge, respectively (e.g. [1, 2, 12] means to repear an edge between nodes 1 and 2, the cost would be 12).
+Example 1:
+
+Input: n = 5, edges = [[1, 2], [2, 3], [3, 4], [4, 5], [1, 5]], edgesToRepair = [[1, 2, 12], [3, 4, 30], [1, 5, 8]]
+Output: 20
+Explanation:
+There are 3 connected components due to broken edges: [1], [2, 3] and [4, 5].
+We can connect these components into a single component by repearing the edges between nodes 1 and 2, and nodes 1 and 5 at a minimum cost 12 + 8 = 20.
+Example 2:
+
+Input: n = 6, edges = [[1, 2], [2, 3], [4, 5], [3, 5], [1, 6], [2, 4]], edgesToRepair = [[1, 6, 410], [2, 4, 800]]
+Output: 410
+Example 3:
+
+Input: n = 6, edges = [[1, 2], [2, 3], [4, 5], [5, 6], [1, 5], [2, 4], [3, 4]], edgesToRepair = [[1, 5, 110], [2, 4, 84], [3, 4, 79]]
+Output: 79
+**/
+public class Main {
+    public static void main(String[] args) {
+        Main main=new Main();
+        int tc1 = main.minCostToConnect(5, new int[][]{{1, 2}, {2, 3}, {3, 4}, {4, 5}, {1, 5}}, new int[][]{{1, 2, 12}, {3, 4, 30}, {1, 5, 8}});
+        int tc2 = main.minCostToConnect(6, new int[][]{{1, 2}, {2, 3}, {4, 5}, {3, 5}, {1, 6}, {2, 4}}, new int[][]{{1, 6, 410}, {2, 4, 800}});
+        int tc3 = main.minCostToConnect(6, new int[][]{{1, 2}, {2, 3}, {4, 5}, {5, 6}, {1, 5}, {2, 4}, {3, 4}}, new int[][]{{1, 5, 110}, {2, 4, 84}, {3, 4, 79}});
+        if(tc1==20 && tc2==410 && tc3==79) {
+            System.out.println("All Test Cases Pases!");
+        } else {
+            System.out.println("There are test failures!");
+            System.out.println(tc1);
+        }
+    }
+    
+    int[] root;
+    public int minCostToConnect(int n, int[][] edges, int[][] edgesToRepair) {
+        int unionNum = n;
+        root = new int[n + 1];
+        int sum = 0;
+        Set<List<Integer>> set = new HashSet<>();
+        for(int[] broken :edgesToRepair) {
+            List<Integer> list = this.toList(broken, 0, 1);       
+            set.add(list);     
+        }
+        for(int i = 1; i <= n; i++) {
+            root[i] = i;
+        }
+        for(int[] edge :edges) {
+            List<Integer> tmp = this.toList(edge, 0, 1);
+            if(set.contains(tmp)) {
+                continue;
+            }
+            this.union(edge[0], edge[1]);
+            unionNum--;
+            if(n == 1) return 0;
+        }
+         Arrays.sort(edgesToRepair, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] arr1, int[] arr2) {
+                return arr1[2]-arr2[2];
+            }
+        });
+        for(int[] broken :edgesToRepair) {
+            if(find(broken[0]) != find(broken[1])) {
+                union(broken[0],broken[1]);
+                unionNum--;
+                sum += broken[2];
+                if(n == 1) return sum;
+            }
+        }
+        return(unionNum == 1) ? sum : -1;
+        
+    }
+    
+    private void union(int x, int y) {
+        root[find(x)] = find(y);
+    }
+    private int find(int node) {
+        if(root[node] == node) return node;
+        return find(root[node]);
+    }
+       
+    private List<Integer> toList(int[] a, int start, int end) {
+        List<Integer> list = new ArrayList<>();
+        for(int i = start; i <= end; i++) {
+            list.add(a[i]);
+        }
+        return list;
+    }      
+}
