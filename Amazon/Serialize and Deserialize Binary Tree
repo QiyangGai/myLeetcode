@@ -1,0 +1,50 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Codec {
+    private static final String spliter = ",";
+    private static final String NN = "null";
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        StringBuilder sb = new StringBuilder();
+        build(root, sb);
+        return sb.toString();
+    }
+    private void build(TreeNode root, StringBuilder sb) {
+        if(root == null) {
+            sb.append(NN).append(spliter);
+        } else {
+            sb.append(root.val).append(spliter);
+            build(root.left, sb);
+            build(root.right, sb);
+        }
+         
+    }
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        Queue<String> queue = new LinkedList<>();
+        String[] elements = data.split(spliter);
+        for(String s : elements) {
+            queue.offer(s);
+        }
+        return decode(queue);
+    }
+    private TreeNode decode(Queue<String> q) {
+        String cur = q.poll();
+        if(cur.equals(NN)) {
+            return null;
+        } else {
+            TreeNode root = new TreeNode(Integer.valueOf(cur));
+        
+            root.left = decode(q);
+            root.right = decode(q);
+            return root;
+        }
+    }
+}
