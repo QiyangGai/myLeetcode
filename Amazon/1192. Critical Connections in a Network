@@ -1,0 +1,89 @@
+public class Solution {
+    private int time = 0;
+    static final int NIL = -1; 
+    private List<List<Integer>> res = new ArrayList<>();
+    Map<Integer, List<Integer>> map;
+    
+    public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
+        map = new HashMap<>();
+        boolean visited[] = new boolean[n]; 
+        int disc[] = new int[n]; 
+        int low[] = new int[n]; 
+        int parent[] = new int[n];
+        for (int i = 0; i < n; i++) { 
+            parent[i] = NIL; 
+            visited[i] = false; 
+        }
+        for(int i = 0; i < n; i++) {
+            map.put(i, new ArrayList<Integer>());
+        }
+        for(List<Integer> pair : connections) {
+             int u = pair.get(0);
+             int w = pair.get(1);
+             map.get(u).add(w);
+             map.get(w).add(u);
+         }   
+        for (int i = 0; i < n; i++) {
+            if (visited[i] == false) 
+                bridgeUtil(i, visited, disc, low, parent); 
+        }
+       return res;
+                            
+    }
+    void bridgeUtil(int u, boolean visited[], int disc[], 
+                    int low[], int parent[]) {
+        visited[u] = true;
+        disc[u] = low[u] = ++time;
+        List<Integer> adju = map.get(u);
+        Iterator<Integer> i = adju.iterator();
+        while(i.hasNext()) {
+            int v = i.next();
+            if(!visited[v]) {
+                parent[v] = u;
+                bridgeUtil(v, visited, disc, low, parent);
+                low[u] = Math.min(low[u], low[v]);
+                if (low[v] > disc[u]) {
+                    List<Integer> tmp = new ArrayList<>();
+                    tmp.add(u);
+                    tmp.add(v);
+                    res.add(tmp);
+                } 
+            } else if (v != parent[u]) { 
+                low[u]  = Math.min(low[u], disc[v]); 
+            } 
+        }
+    }
+     
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
