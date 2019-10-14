@@ -1,0 +1,104 @@
+class LFUCache {
+    class ListNode {
+        int key, val, count;
+        ListNode next, prev;
+        ListNode(int key, int val) {
+            this.key = key;
+            this.val = val;
+            this.count = 1;
+        }
+    }
+    
+    class LFUlist {
+        ListNode head, tail;
+        int size;
+        public LFUlist() {
+            head = new ListNode(0, 0);
+            tail = new ListNode(0, 0);
+            head.next = tail;
+            tail.prev = head;
+        } 
+        private void addNode(ListNode node) {
+            node.prev = head;
+            node.next = head.next;
+            head.next.prev = node;
+            head.next = node;
+            size++;
+        }
+        private void remove(ListNode node) {
+            ListNode prev = node.prev;
+            ListNode next = node.next;
+            prev.next = next;
+            next.prev = prev;
+            size--;
+        }
+        private void moveToFirst(ListNode node) {
+            remove(node);
+            addNode(node);
+        }
+        private ListNode popLast() {
+            ListNode last = tail.prev;
+            if(last == head) return null;
+            remove(last);
+            return last;
+        }
+    }
+    
+    int capacity, size, min;
+    Map<Integer, ListNode> nodeMap;
+    Map<Integer, LFUlist> countMap;
+    
+    public LFUCache(int capacity) {
+        this.capacity = capacity;
+        this.size = 0;
+        this.nodeMap = new HashMap<>();
+        this.countMap = new HashMap<>();
+    }
+    
+    public int get(int key) {
+        if(!nodeMap.containsKey(key)) return -1;
+        ListNode node = nodeMap.get(key);
+        updateFrequency(node);
+        return node.val;
+    }
+    
+    public void put(int key, int value) {
+        if(capacity == 0) return;
+        ListNode node = nodeMap.get(key);
+        if(node == null) {        
+            ListNode newNode = new ListNode(key, value);
+            nodeMap.put(key, newNode);
+            if(size == capacity) {
+                LFUlist lastList = countMap.get(min);
+                ListNode evict = lastList.popLast();
+                nodeMap.remove(evict.key);
+                size--;
+            }
+            min = 1;
+            size++;
+            LFUlist count1list = countMap.getOrDefault(1, new LFUlist());
+            count1list.addNode(newNode);
+            countMap.put(1, count1list);
+        } else {
+            updateFrequency(node);
+            node.val = value;
+        }
+    }
+    private void updateFrequency(ListNode node) {
+        LFUlist oldList = countMap.get(node.count);
+        oldList.remove(node);
+        if(node.count == min && oldList.size == 0) min++;
+        node.count++;
+        LFUlist newList = countMap.getOrDefault(node.count, new LFUlist());
+        newList.addNode(node);
+        countMap.put(node.count, newList);
+        
+    }
+}
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache obj = new LFUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
