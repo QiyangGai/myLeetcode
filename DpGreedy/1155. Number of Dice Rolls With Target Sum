@@ -1,0 +1,22 @@
+class Solution {
+    public int numRollsToTarget(int d, int f, int target) {
+        int mod = 1000000007;
+        int[][] dp = new int[d + 1][target + 1];
+        dp[0][0] = 1;
+        for(int i = 1; i <= d; i++) {
+            for(int j = 1; j <= target; j++) {
+                if(j > d * f) {
+                    break;
+                } else {
+                    for(int k = 1; k <= f && k <= j; k++) {
+                        dp[i][j] = (dp[i][j] + dp[i - 1][j - k]) % mod;
+                    }
+                }
+            }
+        }
+        return dp[d][target];
+    } 
+}
+
+初始条件 dp[0][0] = 1 dp[0][j] = 0 dp[j][0] = 0 第零天有0种方法得到结果0
+转移方程 dp[i][j] = SUM（dp[i - 1][j - k]） k <= j, k <= f第 i 天摇筛子得到k 结果有i - 1天得到结果 j - k而来
