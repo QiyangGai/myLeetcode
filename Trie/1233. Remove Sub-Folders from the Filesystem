@@ -1,0 +1,64 @@
+class Solution {
+    class TrieNode {
+        public boolean isWord;
+        public Map<String, TrieNode> children;
+        public TrieNode() {
+            children = new HashMap<String, TrieNode>();
+            isWord = false;
+           
+        }
+    }
+    class trie {
+        private TrieNode root;
+        public trie() {
+            root = new TrieNode();
+        }
+        
+        public void insert(String word[]) {
+            
+            TrieNode p = root;
+            for(int i = 0; i < word.length; i++) {
+                String c = word[i];
+                Map<String, TrieNode> child = p.children;
+                if(!child.containsKey(c)) {
+                    child.put(c, new TrieNode());
+                }
+                p = child.get(c);
+            }
+            p.isWord = true;
+        }
+       
+        public boolean isPrefix(String[] prefix) {
+            TrieNode p = root;
+             for(int i = 0; i < prefix.length; i++) {
+                String c = prefix[i];
+                Map<String, TrieNode> child = p.children;
+                 if(p.isWord) {
+                    return false;
+                }
+                p = child.get(c);      
+            }
+            return true;
+        }
+        
+       
+    }
+    public List<String> removeSubfolders(String[] folder) {
+        List<String> res = new ArrayList<>();
+        trie mytrie = new trie();
+        String[][] files = new String[folder.length][];
+        for(int i = 0; i < files.length; i++) {
+            files[i] = folder[i].substring(1).split("/");
+        }
+                  
+        for(String[] word : files) {
+            mytrie.insert(word);
+        }
+        for(int i = 0; i < files.length; i++) {
+            if(mytrie.isPrefix(files[i])) {
+                res.add(folder[i]);
+            }
+        }
+        return res;
+    }
+}
